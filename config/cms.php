@@ -24,7 +24,7 @@ return [
     |
     */
 
-    'edgeUpdates' => false,
+    'edgeUpdates' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
     |
     */
 
-    'backendTimezone' => 'UTC',
+    'backendTimezone' => 'Europe/Prague',
 
     /*
     |--------------------------------------------------------------------------
@@ -314,7 +314,7 @@ return [
     |
     */
 
-    'enableCsrfProtection' => false,
+    'enableCsrfProtection' => true,
 
     /*
     |--------------------------------------------------------------------------

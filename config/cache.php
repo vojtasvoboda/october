@@ -74,6 +74,6 @@ return [
     |
     */
 
-    'prefix' => 'october',
+    'prefix' => env('CACHE_PREFIX'),
 
 ];
