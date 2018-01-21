@@ -55,7 +55,7 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'port'      => '',
+            'port'      => 3306,
             'database'  => env('DATABASE_NAME'),
             'username'  => env('DATABASE_USER'),
             'password'  => env('DATABASE_PASSWORD'),
@@ -67,7 +67,7 @@ return [
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => 'localhost',
-            'port'     => '',
+            'port'     => 5432,
             'database' => 'database',
             'username' => 'root',
             'password' => '',
@@ -79,7 +79,7 @@ return [
         'sqlsrv' => [
             'driver'   => 'sqlsrv',
             'host'     => 'localhost',
-            'port'     => '',
+            'port'     => 1433,
             'database' => 'database',
             'username' => 'root',
             'password' => '',
