@@ -109,8 +109,8 @@ class Repeater extends FormWidgetBase
         }
 
         $fieldName = $this->formField->getName(false);
-        $this->indexInputName = self::INDEX_PREFIX.$fieldName;
-        $this->groupInputName = self::GROUP_PREFIX.$fieldName;
+        $this->indexInputName = $this->alias.self::INDEX_PREFIX.$fieldName;
+        $this->groupInputName = $this->alias.self::GROUP_PREFIX.$fieldName;
 
         $this->processGroupMode();
 
@@ -190,6 +190,9 @@ class Repeater extends FormWidgetBase
             foreach ($value as $index => &$data) {
                 $data['_group'] = $this->getGroupCodeFromIndex($index);
             }
+            // Make sure the $data reference is removed from memory so that the next loop won't modify it
+            // which would cause the last item to receive the group code of the second-last item
+            unset($data);
         }
 
         if ($this->minItems && count($value) < $this->minItems) {
@@ -202,15 +205,13 @@ class Repeater extends FormWidgetBase
         /*
          * Give repeated form field widgets an opportunity to process the data.
          */
-        foreach ($this->formWidgets as $field => $form) {
-            foreach ($form->getFormWidgets() as $formField => $widget) {
-                $parts = HtmlHelper::nameToArray($field . '[' . $formField . ']');
-
-                $widgetValue = $widget->getSaveValue($this->dataArrayGet($value, $parts));
-                if (empty($widgetValue) || !count($widgetValue)) {
-                    continue;
+        foreach ($value as $index => $data) {
+            if (isset($this->formWidgets[$index])) {
+                if ($this->useGroups) {
+                    $value[$index] = array_merge($this->formWidgets[$index]->getSaveData(), ['_group' => $data['_group']]);
+                } else {
+                    $value[$index] = $this->formWidgets[$index]->getSaveData();
                 }
-                $this->dataArraySet($value, $parts, $widgetValue);
             }
         }
 
@@ -368,7 +369,7 @@ class Repeater extends FormWidgetBase
             return null;
         }
 
-        return ['fields' => $fields];
+        return ['fields' => $fields, 'enableDefaults' => object_get($this->config, 'enableDefaults')];
     }
 
     /**
@@ -420,84 +421,5 @@ class Repeater extends FormWidgetBase
     public function getGroupTitle($groupCode)
     {
         return array_get($this->groupDefinitions, $groupCode.'.name');
-    }
-
-    /**
-     * Internal helper for method existence checks.
-     *
-     * @param  object $object
-     * @param  string $method
-     * @return boolean
-     */
-    protected function objectMethodExists($object, $method)
-    {
-        if (method_exists($object, 'methodExists')) {
-            return $object->methodExists($method);
-        }
-
-        return method_exists($object, $method);
-    }
-
-    /**
-     * Variant to array_get() but preserves dots in key names.
-     *
-     * @param array $array
-     * @param array $parts
-     * @param null $default
-     * @return array|null
-     */
-    protected function dataArrayGet(array $array, array $parts, $default = null)
-    {
-        if ($parts === null) {
-            return $array;
-        }
-
-        if (count($parts) === 1) {
-            $key = array_shift($parts);
-            if (isset($array[$key])) {
-                return $array[$key];
-            }
-
-            return $default;
-        }
-
-        foreach ($parts as $segment) {
-            if (!is_array($array) || !array_key_exists($segment, $array)) {
-                return $default;
-            }
-
-            $array = $array[$segment];
-        }
-
-        return $array;
-    }
-
-    /**
-     * Variant to array_set() but preserves dots in key names.
-     *
-     * @param array $array
-     * @param array $parts
-     * @param string $value
-     * @return array
-     */
-    protected function dataArraySet(array &$array, array $parts, $value)
-    {
-        if ($parts === null) {
-            return $value;
-        }
-
-        while (count($parts) > 1) {
-            $key = array_shift($parts);
-
-            if (!isset($array[$key]) || !is_array($array[$key])) {
-                $array[$key] = [];
-            }
-
-            $array =& $array[$key];
-        }
-
-        $array[array_shift($parts)] = $value;
-
-        return $array;
     }
 }
