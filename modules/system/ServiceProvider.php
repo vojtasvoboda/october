@@ -14,6 +14,7 @@ use System\Classes\ErrorHandler;
 use System\Classes\MarkupManager;
 use System\Classes\PluginManager;
 use System\Classes\SettingsManager;
+use System\Classes\UpdateManager;
 use System\Twig\Engine as TwigEngine;
 use System\Twig\Loader as TwigLoader;
 use System\Twig\Extension as TwigExtension;
@@ -208,6 +209,11 @@ class ServiceProvider extends ModuleServiceProvider
          * Allow plugins to use the scheduler
          */
         Event::listen('console.schedule', function ($schedule) {
+            // Fix initial system migration with plugins that use settings for scheduling - see #3208
+            if (App::hasDatabase() && !Schema::hasTable(UpdateManager::instance()->getMigrationTableName())) {
+                return;
+            }
+
             $plugins = PluginManager::instance()->getPlugins();
             foreach ($plugins as $plugin) {
                 if (method_exists($plugin, 'registerSchedule')) {
@@ -246,6 +252,7 @@ class ServiceProvider extends ModuleServiceProvider
         $this->registerConsoleCommand('theme.remove', 'System\Console\ThemeRemove');
         $this->registerConsoleCommand('theme.list', 'System\Console\ThemeList');
         $this->registerConsoleCommand('theme.use', 'System\Console\ThemeUse');
+        $this->registerConsoleCommand('theme.sync', 'System\Console\ThemeSync');
     }
 
     /*
@@ -529,7 +536,7 @@ class ServiceProvider extends ModuleServiceProvider
      */
     protected function registerValidator()
     {
-        $this->app->resolving('validator', function($validator) {
+        $this->app->resolving('validator', function ($validator) {
             /*
              * Allowed file extensions, as opposed to mime types.
              * - extensions: png,jpg,txt

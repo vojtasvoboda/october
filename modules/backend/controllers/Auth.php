@@ -46,8 +46,6 @@ class Auth extends Controller
             })->only('signout');
         }
 
-        // Add JS File to un-install SW to avoid Cookie Cache Issues when Signin, see github issue: #3707
-        $this->addJs(url("/modules/backend/assets/js/auth/uninstall-sw.js"));
         $this->layout = 'auth';
     }
 
@@ -120,7 +118,12 @@ class Auth extends Controller
      */
     public function signout()
     {
-        BackendAuth::logout();
+        if (BackendAuth::isImpersonator()) {
+            BackendAuth::stopImpersonate();
+        } else {
+            BackendAuth::logout();
+        }
+
         return Backend::redirect('backend');
     }
 

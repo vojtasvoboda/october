@@ -518,6 +518,8 @@ body .fr-popup .fr-input-line textarea:focus {border:1px solid #d1d6d9}
 body .fr-popup .fr-input-line input[type="text"].fr-not-empty,
 body .fr-popup .fr-input-line textarea.fr-not-empty {margin-top:12px}
 body .fr-popup .fr-input-line textarea {height:auto}
+body .fr-popup .fr-input-line input + label,
+body .fr-popup .fr-input-line textarea + label {background:transparent !important}
 body .fr-popup .fr-input-line input.fr-not-empty:focus + label,
 body .fr-popup .fr-input-line textarea.fr-not-empty:focus + label {color:#2a3e51}
 body .fr-popup .fr-checkbox span {border-color:#d1d6d9}
