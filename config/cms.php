@@ -95,6 +95,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Automatically run migrations on login
+    |--------------------------------------------------------------------------
+    |
+    | If value is true, UpdateManager will be run on logging in to the backend.
+    | It's recommended to set this value to 'null' in production enviroments
+    | because it clears the cache every time a user logs in to the backend.
+    | If set to null, this setting is enabled when debug mode (app.debug) is enabled
+    | and disabled when debug mode is disabled.
+    |
+    */
+
+    'runMigrationsOnLogin' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Determines which modules to load
     |--------------------------------------------------------------------------
     |
@@ -359,8 +374,8 @@ return [
     | Cross Site Request Forgery (CSRF) Protection
     |--------------------------------------------------------------------------
     |
-    | If the CSRF protection is enabled, all "postback" requests are checked
-    | for a valid security token.
+    | If the CSRF protection is enabled, all "postback" & AJAX requests are
+    | checked for a valid security token.
     |
     */
 
