@@ -53,15 +53,17 @@ return [
         ],
 
         'mysql' => [
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'port'      => 3306,
-            'database'  => env('DATABASE_NAME'),
-            'username'  => env('DATABASE_USER'),
-            'password'  => env('DATABASE_PASSWORD'),
-            'charset'   => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix'    => '',
+            'driver'     => 'mysql',
+            'engine'     => 'InnoDB',
+            'host'       => 'localhost',
+            'port'       => 3306,
+            'database'   => 'database',
+            'username'   => 'root',
+            'password'   => '',
+            'charset'    => 'utf8mb4',
+            'collation'  => 'utf8mb4_unicode_ci',
+            'prefix'     => '',
+            'varcharmax' => 191,
         ],
 
         'pgsql' => [
@@ -125,4 +127,20 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Use DB configuration for testing
+    |--------------------------------------------------------------------------
+    |
+    | When running plugin tests OctoberCMS by default uses SQLite in memory.
+    | You can override this behavior by setting `useConfigForTesting` to true.
+    |
+    | After that OctoberCMS will take DB parameters from the config.
+    | If file `/config/testing/database.php` exists, config will be read from it,
+    | but remember that when not specified it will use parameters specified in
+    | `/config/database.php`.
+    |
+    */
+
+    'useConfigForTesting' => false,
 ];

@@ -63,6 +63,7 @@ class CmsObjectQueryTest extends TestCase
             "authors",
             "b/b-page",
             "blog-archive",
+            "blog-category",
             "blog-post",
             "code-namespaces",
             "code-namespaces-aliases",
@@ -77,6 +78,7 @@ class CmsObjectQueryTest extends TestCase
             "no-component-class",
             "no-layout",
             "no-partial",
+            "no-soft-component-class",
             "optional-full-php-tags",
             "optional-short-php-tags",
             "throw-php",
@@ -86,6 +88,8 @@ class CmsObjectQueryTest extends TestCase
             "with-layout",
             "with-partials",
             "with-placeholder",
+            "with-soft-component-class",
+            "with-soft-component-class-alias",
         ], $pages);
 
         $layouts = Layout::lists('baseFileName');

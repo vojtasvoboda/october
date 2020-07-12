@@ -64,9 +64,9 @@ return [
     | Session Database Connection
     |--------------------------------------------------------------------------
     |
-    | When using the "database" session driver, you may specify the database
-    | connection that should be used to manage your sessions. This should
-    | correspond to a connection in your "database" configuration file.
+    | When using the "database" or "redis" session drivers, you may specify a
+    | connection that should be used to manage these sessions. This should
+    | correspond to a connection in your database configuration options.
     |
     */
 
@@ -136,6 +136,19 @@ return [
     */
 
     'domain' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | HTTP Access Only
+    |--------------------------------------------------------------------------
+    |
+    | Setting this value to true will prevent JavaScript from accessing the
+    | value of the cookie and the cookie will only be accessible through
+    | the HTTP protocol. You are free to modify this option if needed.
+    |
+    */
+    
+    'http_only' => true,
 
     /*
     |--------------------------------------------------------------------------
