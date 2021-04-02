@@ -20,6 +20,7 @@ class Author extends Model
      */
     public $belongsTo = [
         'user' => ['Database\Tester\Models\User', 'delete' => true],
+        'country' => ['Database\Tester\Models\Country'],
         'user_soft' => ['Database\Tester\Models\SoftDeleteUser', 'key' => 'user_id', 'softDelete' => true],
     ];
 
@@ -49,6 +50,15 @@ class Author extends Model
 
     public $morphOne = [
         'meta' => ['Database\Tester\Models\Meta', 'name' => 'taggable'],
+    ];
+
+    public $morphToMany = [
+        'tags' => [
+            'Database\Tester\Models\Tag',
+            'name'  => 'taggable',
+            'table' => 'database_tester_taggables',
+            'pivot' => ['added_by']
+        ],
     ];
 }
 
