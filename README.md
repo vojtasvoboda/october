@@ -7,7 +7,7 @@ https://www.website.com
 - PHP 7.4 (max PHP 8.0)
 - MySQL 5.7 or MariaDB 10.2
 
-Run `php -v`. When it prints some version higher then 7.4 it is Ok. Otherwise check tutorial:
+Run `php -v`. When it prints some version higher than 7.4 it is Ok. Otherwise check tutorial:
 
 http://blog.vojtasvoboda.cz/instalace-php-na-mac-os-x-mountain-lion
 
